@@ -5,6 +5,11 @@ on:
     - cron: "0 12 * * *"  # TODO: Adjust time if you're in a different timezone
   workflow_dispatch:
 
+env:
+  EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+  EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+
+
 jobs:
   run-job-scraper:
     runs-on: ubuntu-latest
