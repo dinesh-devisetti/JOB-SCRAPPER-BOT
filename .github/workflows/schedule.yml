@@ -1,14 +1,12 @@
-name: Daily Job Scraper
+name: Job Scraper Bot (Daily)
 
 on:
   schedule:
-    - cron: "0 12 * * *"  # TODO: Adjust time if you're in a different timezone
-  workflow_dispatch:
+    # Runs every day at 6:00 AM CST
+    # GitHub Actions uses UTC → 6 AM CST = 12 PM UTC (standard time)
+    - cron: "0 18 * * *"
 
-env:
-  EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
-  EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-
+  workflow_dispatch:  # Allows manual trigger for testing
 
 jobs:
   run-scraper:
@@ -21,12 +19,21 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Run job scraper
+      # ---------- STEP 5: SAFE ENVIRONMENT DEBUG ----------
+      - name: Verify environment variables (safe check)
+        run: |
+          echo "EMAIL_ADDRESS is set: ${{ secrets.EMAIL_ADDRESS != '' }}"
+          echo "EMAIL_PASSWORD is set: ${{ secrets.EMAIL_PASSWORD != '' }}"
+
+      # ---------- ACTUAL EXECUTION ----------
+      - name: Run Job Scraper
         env:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
