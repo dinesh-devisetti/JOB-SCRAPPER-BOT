@@ -2,7 +2,8 @@ from scraper import scrape_wellfound
 from emailer import send_email
 
 def main():
-    jobs = scrape_wellfound()
+    jobs = []
+    jobs.extend(scrape_wellfound())
     if not jobs:
         print("No jobs found today.")
         return

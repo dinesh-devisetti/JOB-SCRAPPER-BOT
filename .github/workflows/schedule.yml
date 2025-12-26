@@ -4,7 +4,7 @@ on:
   schedule:
     # Runs every day at 6:00 AM CST
     # GitHub Actions uses UTC → 6 AM CST = 12 PM UTC (standard time)
-    - cron: "0 18 30 2 *"
+    - cron: "0 18 * * *"
 
   workflow_dispatch:  # Allows manual trigger for testing
 
